@@ -1,8 +1,20 @@
+# Build folders
 bin/
 obj/
+
+# Project plans
 plan/
+
+# UML diagrams
 uml/
+
+# External libraries
+external/
+
+# Code::Blocks project files
 personal-budget.*
+
+# Runtime XML files
 users.xml
 incomes.xml
 expenses.xml
