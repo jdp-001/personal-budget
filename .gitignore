@@ -1,6 +1,7 @@
 bin/
 obj/
 plan/
+uml/
 personal-budget.*
 users.xml
 incomes.xml
