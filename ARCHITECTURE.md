@@ -209,6 +209,12 @@ Recommended branch scope:
   - feature__budget-management (BudgetManager, Operation)
 - UI / Control:
   - feature__ui
+  
+### Master branch policy
+- Direct commits to master are not allowed.
+- All changes must be developed on feature branches.
+- master is updated only via merge commits from feature branches.
+- master must always represent a stable, review-ready state.
 
 ---
 
