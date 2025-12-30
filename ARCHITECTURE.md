@@ -192,6 +192,24 @@ It does not contain business logic or persistence logic.
 - No implementation starts without agreed architecture (UML + ARCHITECTURE.md).
 - README.md is required after publishing the project to GitHub.
 
+### Branching strategy
+- A branch represents a coherent functional area, not a single class or method.
+- One branch may contain multiple closely related classes.
+
+Recommended branch scope:
+- Helpers:
+  - feature__helpers-date-methods
+  - feature__helpers-cash-methods
+  - feature__helpers-utils
+- Persistence:
+  - feature__persistence (File, UserFile, OperationFile)
+- User management:
+  - feature__user-management (UserManager, User)
+- Budget management:
+  - feature__budget-management (BudgetManager, Operation)
+- UI / Control:
+  - feature__ui
+
 ---
 
 ## 10. Open questions / decisions
