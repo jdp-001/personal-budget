@@ -2,6 +2,7 @@
 #include <cctype>  // std::isdigit
 #include <cstddef> // size_t
 #include <string>  // std::stoi
+#include <ctime>   // time
 
 bool DateMethods::validateDate(const std::string& date)
 {
@@ -46,8 +47,24 @@ int DateMethods::getDaysInMonth(int year, int month)
     }
 }
 
-
 bool DateMethods::isStartDateBeforeOrEqualEndDate(int startDate, int endDate)
 {
     return startDate <= endDate;
+}
+
+bool DateMethods::isDateFrom2000ToEndOfCurrentMonth(int date)
+{
+    const int MIN_DATE = 20000101;
+
+    time_t t = time(nullptr);
+    tm* now = localtime(&t);
+    if (now == nullptr) return false;
+
+    int year  = now->tm_year + 1900;
+    int month = now->tm_mon + 1;
+
+    int maxDate = year * 10000 + month * 100 + getDaysInMonth(year, month);
+
+    return date >= MIN_DATE && date <= maxDate;
+
 }
