@@ -60,12 +60,13 @@ bool DateMethods::isDateFrom2000ToEndOfCurrentMonth(int date)
 {
     const int MIN_DATE = 20000101;
 
-    time_t t = time(nullptr);
-    tm* now = localtime(&t);
-    if (now == nullptr) return false;
+    //time_t t = time(nullptr);
+    //tm* now = localtime(&t);
+    //if (now == nullptr) return false;
+    int today = getCurrentDate();
 
-    int year  = now->tm_year + 1900;
-    int month = now->tm_mon + 1;
+    int year  = today / 10000;
+    int month = today / 100 % 100;
 
     int maxDate = year * 10000 + month * 100 + getDaysInMonth(year, month);
 
