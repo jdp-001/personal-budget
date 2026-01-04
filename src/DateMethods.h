@@ -10,4 +10,5 @@ public:
     bool validateDate(const std::string& date);
     bool isStartDateBeforeOrEqualEndDate(int startDate, int endDate);
     bool isDateFrom2000ToEndOfCurrentMonth(int date);
+    int getCurrentDate();
 };

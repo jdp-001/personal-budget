@@ -68,3 +68,16 @@ bool DateMethods::isDateFrom2000ToEndOfCurrentMonth(int date)
     return date >= MIN_DATE && date <= maxDate;
 
 }
+
+int DateMethods::getCurrentDate()
+{
+    time_t t = time(nullptr);
+    tm* now = localtime(&t);
+    if (now == nullptr) return 0;
+
+    int year  = now->tm_year + 1900;
+    int month = now->tm_mon + 1;
+    int day = now->tm_mday;
+
+    return year * 10000 + month * 100 + day;
+}
