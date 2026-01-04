@@ -51,27 +51,18 @@ int DateMethods::getDaysInMonth(int year, int month)
     }
 }
 
-bool DateMethods::isStartDateBeforeOrEqualEndDate(int startDate, int endDate)
-{
-    return startDate <= endDate;
-}
-
 bool DateMethods::isDateFrom2000ToEndOfCurrentMonth(int date)
 {
     const int MIN_DATE = 20000101;
 
-    //time_t t = time(nullptr);
-    //tm* now = localtime(&t);
-    //if (now == nullptr) return false;
     int today = getCurrentDate();
 
     int year  = today / 10000;
-    int month = today / 100 % 100;
+    int month = (today / 100) % 100;
 
     int maxDate = year * 10000 + month * 100 + getDaysInMonth(year, month);
 
     return date >= MIN_DATE && date <= maxDate;
-
 }
 
 int DateMethods::getCurrentDate()
