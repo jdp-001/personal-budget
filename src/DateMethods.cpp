@@ -6,6 +6,7 @@
 
 bool DateMethods::validateDate(const std::string& date)
 {
+    // Format
     if (date.length() != 10) return false;
     if (date[4] != '-') return false;
     if (date[7] != '-') return false;
@@ -16,6 +17,7 @@ bool DateMethods::validateDate(const std::string& date)
         if (!std::isdigit(date[i])) return false;
     }
 
+    // Calendar
     int year = std::stoi(date.substr(0, 4));
     int month = std::stoi(date.substr(5, 2));
     int day = std::stoi(date.substr(8, 2));
@@ -26,7 +28,9 @@ bool DateMethods::validateDate(const std::string& date)
     int daysInMonth = getDaysInMonth(year, month);
     if (day > daysInMonth) return false;
 
-    return true;
+    // Limit (2000.01.01 - end of current month)
+    int dateToValidate = year * 10000 + month * 100 + day;
+    return isDateFrom2000ToEndOfCurrentMonth(dateToValidate);
 }
 
 int DateMethods::getDaysInMonth(int year, int month)
