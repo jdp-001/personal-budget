@@ -11,5 +11,5 @@ public:
     bool validateDate(const std::string& date);
     bool isDateFrom2000ToEndOfCurrentMonth(int date);
     int getCurrentDate();
-    int getFirstDayOfCurrentMonth();
+    int getCurrentMonthFirstDayDate();
 };
