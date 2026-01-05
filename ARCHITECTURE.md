@@ -62,9 +62,11 @@ They do not store application state and do not perform business decisions.
   - validating user input dates (yyyy-mm-dd)
   - converting dates between string format and internal int format (YYYYMMDD)
   - leap year handling and month length calculation
-  - retrieving the current system date (getCurrentDate) in internal YYYYMMDD format
-  - enforcing the allowed date range (2000-01-01 to the last day of the current month, calculated dynamically)
-  - calculating date boundaries (current month, previous month, custom periods if needed)
+  - retrieving the current system date (YYYYMMDD)
+  - enforcing the allowed date range (2000-01-01 to the last day of the current month)
+  - providing date boundaries used by budget calculations:
+    - first day of the current month
+    - first and last day of the previous month
 
 - CashMethods
   Validates monetary input:
