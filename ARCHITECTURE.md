@@ -56,14 +56,15 @@ They do not store application state and do not perform business decisions.
 - Utils
   Provides basic console input helpers (e.g., reading full lines, single characters)
   and simple input validation used by menus and managers.
-
+  
 - DateMethods
   Responsible for all date-related logic:
   - validating user input dates (yyyy-mm-dd)
-  - handling special input for current date
   - converting dates between string format and internal int format (YYYYMMDD)
-  - calculating date boundaries (current month, previous month)
-  - leap year handling
+  - leap year handling and month length calculation
+  - retrieving the current system date (getCurrentDate) in internal YYYYMMDD format
+  - enforcing the allowed date range (2000-01-01 to the last day of the current month, calculated dynamically)
+  - calculating date boundaries (current month, previous month, custom periods if needed)
 
 - CashMethods
   Validates monetary input:
