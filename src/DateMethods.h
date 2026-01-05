@@ -5,7 +5,7 @@ class DateMethods
 {
 private:
     int getDaysInMonth(int year, int month);
-    bool isYearLeap(int year);
+    int isYearLeap(int year);
 
 public:
     bool validateDate(const std::string& date);

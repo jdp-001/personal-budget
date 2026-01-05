@@ -75,9 +75,9 @@ int DateMethods::getCurrentDate()
     return year * 10000 + month * 100 + day;
 }
 
-bool DateMethods::isYearLeap(int year)
+int DateMethods::isYearLeap(int year)
 {
-    return ((year % 4 == 0 && year % 100 != 0) || (year % 400 == 0));
+    return ((year % 4 == 0 && year % 100 != 0) || (year % 400 == 0)) ? 1 : 0;
 }
 
 int DateMethods::getFirstDayOfCurrentMonth()
