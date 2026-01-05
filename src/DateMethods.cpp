@@ -84,3 +84,35 @@ int DateMethods::getCurrentMonthFirstDayDate()
 {
     return getCurrentDate() / 100 * 100 + 1;
 }
+
+int DateMethods::getPreviousMonthFirstDayDate()
+{
+    int today = getCurrentDate();
+    int year  = today / 10000;
+    int month = (today / 100) % 100;
+
+    month--;
+    if (month == 0)
+    {
+        month = 12;
+        year--;
+    }
+
+    return year * 10000 + month * 100 + 1;
+}
+
+int DateMethods::getPreviousMonthLastDayDate()
+{
+    int today = getCurrentDate();
+    int year  = today / 10000;
+    int month = (today / 100) % 100;
+
+    month--;
+    if (month == 0)
+    {
+        month = 12;
+        year--;
+    }
+
+    return (year * 10000 + month * 100 + getDaysInMonth(year, month));
+}

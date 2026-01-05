@@ -12,4 +12,6 @@ public:
     bool isDateFrom2000ToEndOfCurrentMonth(int date);
     int getCurrentDate();
     int getCurrentMonthFirstDayDate();
+    int getPreviousMonthFirstDayDate();
+    int getPreviousMonthLastDayDate();
 };
