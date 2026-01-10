@@ -56,14 +56,17 @@ They do not store application state and do not perform business decisions.
 - Utils
   Provides basic console input helpers (e.g., reading full lines, single characters)
   and simple input validation used by menus and managers.
-
+  
 - DateMethods
   Responsible for all date-related logic:
   - validating user input dates (yyyy-mm-dd)
-  - handling special input for current date
   - converting dates between string format and internal int format (YYYYMMDD)
-  - calculating date boundaries (current month, previous month)
-  - leap year handling
+  - leap year handling and month length calculation
+  - retrieving the current system date (YYYYMMDD)
+  - enforcing the allowed date range (2000-01-01 to the last day of the current month)
+  - providing date boundaries used by budget calculations:
+    - first day of the current month
+    - first and last day of the previous month
 
 - CashMethods
   Validates monetary input:
@@ -165,6 +168,8 @@ It does not contain business logic or persistence logic.
 ### Code conventions
 - Source code: English
 - Comments: English
+- In .cpp files, the corresponding project header is included first, followed by standard library headers ordered alphabetically.
+- Add include comments only when they explain why a header is required (avoid obvious comments like "<string> for strings").
 
 ### Architecture & implementation rules
 - Application logic must be separated from UI and persistence layers.
