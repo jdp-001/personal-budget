@@ -168,6 +168,8 @@ It does not contain business logic or persistence logic.
 ### Code conventions
 - Source code: English
 - Comments: English
+- In .cpp files, the corresponding project header is included first, followed by standard library headers ordered alphabetically.
+- Add include comments only when they explain why a header is required (avoid obvious comments like "<string> for strings").
 
 ### Architecture & implementation rules
 - Application logic must be separated from UI and persistence layers.

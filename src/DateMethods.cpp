@@ -1,8 +1,9 @@
-#include "DateMethods.h"
-#include <cctype>  // std::isdigit
-#include <cstddef> // size_t
-#include <string>  // std::stoi
-#include <ctime>   // time
+#include "DateMethods.h"   // class declaration
+
+#include <cctype>   // std::isdigit used in date validation
+#include <cstddef>  // size_t used in validation loops
+#include <ctime>    // system date retrieval (time, localtime, tm)
+#include <string>   // std::string, std::stoi, std::to_string
 
 bool DateMethods::validateDate(const std::string& date)
 {
@@ -115,4 +116,46 @@ int DateMethods::getPreviousMonthLastDayDate()
     }
 
     return (year * 10000 + month * 100 + getDaysInMonth(year, month));
+}
+
+int DateMethods::convertStringDateToInt(const std::string &dateAsString)
+{
+    std::string inputDateAsString = dateAsString;
+    inputDateAsString.erase(7, 1);
+    inputDateAsString.erase(4, 1);
+
+    int outputDateAsInt = 0;
+    outputDateAsInt = std::stoi(inputDateAsString);
+
+    return outputDateAsInt;
+}
+
+std::string DateMethods::convertIntDateToStringWithDashes(int dateAsInt)
+{
+    int yearAsInt = dateAsInt / 10000;
+    int monthAsInt = dateAsInt / 100 % 100;
+    int dayAsInt = dateAsInt % 100;
+    std::string dayAsString, monthAsString;
+
+    std::string yearAsString = std::to_string(yearAsInt);
+
+    if (monthAsInt < 10)
+    {
+        monthAsString = "0" + std::to_string(monthAsInt);
+    }
+    else
+    {
+        monthAsString = std::to_string(monthAsInt);
+    }
+
+    if (dayAsInt < 10)
+    {
+        dayAsString = "0" + std::to_string(dayAsInt);
+    }
+    else
+    {
+        dayAsString = std::to_string(dayAsInt);
+    }
+
+    return yearAsString + "-" + monthAsString + "-" + dayAsString;
 }

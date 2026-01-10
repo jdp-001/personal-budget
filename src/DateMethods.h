@@ -14,4 +14,6 @@ public:
     int getCurrentMonthFirstDayDate();
     int getPreviousMonthFirstDayDate();
     int getPreviousMonthLastDayDate();
+    int convertStringDateToInt(const std::string &dateAsString);
+    std::string convertIntDateToStringWithDashes(int dateAsInt);
 };
