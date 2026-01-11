@@ -8,5 +8,6 @@ class BudgetManager
 
 public:
     void showCurrentMonthBalance();
+    void showPreviousMonthBalance();
 
 };
