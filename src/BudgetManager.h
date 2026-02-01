@@ -8,7 +8,8 @@
 class BudgetManager
 {
     DateMethods dateMethods;
-    std::vector<Operation> operations;
+    std::vector<Operation> incomes;
+    std::vector<Operation> expenses;
 
 public:
     void showCurrentMonthBalance();
