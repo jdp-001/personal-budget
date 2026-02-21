@@ -6,8 +6,7 @@ using namespace std;
 
 bool BudgetMainApp::isUserLoggedIn()
 {
-    cout << "TODO" << endl;
-    return 0;
+    return userManager.isUserLoggedIn();
 }
 
 void BudgetMainApp::registerUser()
@@ -17,17 +16,29 @@ void BudgetMainApp::registerUser()
 
 void BudgetMainApp::loginUser()
 {
-    cout << "TODO" << endl;
+    userManager.loginUser(); // Call UserManager method
+
+    if (userManager.isUserLoggedIn())
+    {
+        budgetManager = new BudgetManager("incomes.xml", "expenses.xml", userManager.getLoggedUserId());
+    }
 }
 
 void BudgetMainApp::logoutUser()
 {
-    cout << "TODO" << endl;
+    userManager.logoutUser();
+    delete budgetManager;
+    budgetManager = nullptr;
 }
 
 void BudgetMainApp::addIncome()
 {
-    cout << "TODO" << endl;
+    if (budgetManager != nullptr)
+    {
+        //budgetManager->addIncomeTest();
+        budgetManager->addIncome();
+        system("pause");
+    }
 }
 
 void BudgetMainApp::addExpense()
@@ -52,5 +63,5 @@ void BudgetMainApp::showCustomPeriodBalance()
 
 void BudgetMainApp::changeUserPassword()
 {
-    cout << "TODO" << endl;
+    userManager.changeUserPassword();
 }

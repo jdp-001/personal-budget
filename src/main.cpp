@@ -64,6 +64,10 @@ int main()
             case '7':
                 budgetMainApp.logoutUser();
                 break;
+            default:
+                cout << endl << "There is no such option in the menu." << endl << endl;
+                system("pause");
+                break;
             }
         }
     }
