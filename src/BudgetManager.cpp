@@ -53,7 +53,7 @@ void BudgetManager::addIncome()
     while (true)
     {
         std::cout << "Enter item: ";
-        item = Utils::getLine();
+        item = Utils::readLine();
         item = Utils::trim(item);
 
         if (!item.empty())
@@ -67,7 +67,7 @@ void BudgetManager::addIncome()
     while (true)
     {
         std::cout << "Enter amount: ";
-        std::string amountStr = Utils::getLine();
+        std::string amountStr = Utils::readLine();
 
         for (char &c : amountStr)
             if (c == ',') c = '.';

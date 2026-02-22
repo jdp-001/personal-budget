@@ -1,4 +1,6 @@
 #include "UserManager.h" // class declaration
+#include "Utils.h"
+
 #include <iostream>
 
 bool UserManager::isUserLoggedIn()
@@ -13,7 +15,48 @@ int UserManager::getLoggedUserId() const
 
 void UserManager::loginUser()
 {
-    loggedUserId = 1; // Temporary for testing purposes
+    //loggedUserId = 1; // Temporary for testing purposes
+    std::cout << "Enter login: ";
+    std::string login = Utils::readLine();
+
+    for (const User& user : users)
+    {
+        if (user.login == login)
+        {
+            std::cout << "User found." << std::endl;
+
+            std::string password = "";
+            for (int attempt = 1; attempt <=3; ++attempt)
+            {
+                std::cout << "Enter password: ";
+                password = Utils::readLine();
+
+                if (user.password == password)
+                {
+                    loggedUserId = user.id;
+                    std::cout << "You are logged in." << std::endl;
+                    system("pause");
+                    return;
+                }
+                else
+                {
+                    if (attempt < 3)
+                    {
+                        std::cout << "Incorrect password. Attempts remaining: " << 3 - attempt << std::endl;
+                    }
+                    else
+                    {
+                        std::cout << "3 times invalid password..." << std::endl;
+                        system("pause");
+                        return;
+                    }
+                }
+            }
+        }
+    }
+
+    std::cout << "User does not exist." << std::endl;
+    system("pause");
 }
 
 void UserManager::logoutUser()
@@ -31,5 +74,11 @@ void UserManager::changeUserPassword()
 
     std::cout << "Password change function called." << std::endl;
     system("pause"); // Temporary for testing purposes
+}
+
+UserManager::UserManager(const std::string& fileName)
+    : userFile(fileName)
+{
+    users = userFile.loadUsersFromFile();
 }
 

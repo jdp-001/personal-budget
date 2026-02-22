@@ -4,17 +4,15 @@
 
 #include <string>
 
-class BudgetMainApp
-{
+class BudgetMainApp {
 private:
     UserManager userManager;
     BudgetManager* budgetManager;
 
 public:
     BudgetMainApp(std::string usersFileName, std::string incomesFileName, std::string expensesFileName)
-    {
+        : userManager(usersFileName) {
         budgetManager = nullptr;
-
     }
 
     bool isUserLoggedIn();
