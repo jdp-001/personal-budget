@@ -17,4 +17,6 @@ public:
     void loginUser();
     void logoutUser();
     void changeUserPassword();
+    void registerUser();
+    bool ifLoginExists(const std::string& login) const;
 };

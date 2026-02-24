@@ -11,4 +11,5 @@ private:
 public:
     UserFile(const std::string& fileName);
     std::vector<User> loadUsersFromFile();
+    void appendUserToFile(const User& user);
 };

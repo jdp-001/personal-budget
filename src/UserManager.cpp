@@ -82,3 +82,68 @@ UserManager::UserManager(const std::string& fileName)
     users = userFile.loadUsersFromFile();
 }
 
+void UserManager::registerUser()
+{
+    std::cout << "Enter login: ";
+    std::string login = Utils::readLine();
+
+    if (login.empty())
+    {
+        std::cout << "Login cannot be empty." << std::endl;
+        system("pause");
+        return;
+    }
+
+    if (ifLoginExists(login))
+    {
+        std::cout << "Login already exists." << std::endl;
+        system("pause");
+        return;
+    }
+
+    std::cout << "Enter password: ";
+    std::string password = Utils::readLine();
+
+    if (password.empty())
+    {
+        std::cout << "Password cannot be empty." << std::endl;
+        system("pause");
+        return;
+    }
+
+    std::cout << "Enter first name: ";
+    std::string firstName = Utils::readLine();
+
+    std::cout << "Enter last name: ";
+    std::string lastName = Utils::readLine();
+
+    int newUserId = 1;
+
+    if (!users.empty())
+    newUserId = users.back().id + 1;
+
+    User newUser;
+
+    newUser.id = newUserId;
+    newUser.login = login;
+    newUser.password = password;
+    newUser.firstName = firstName;
+    newUser.lastName = lastName;
+
+    users.push_back(newUser);
+    userFile.appendUserToFile(newUser);
+
+    std::cout << "Registration successful." << std::endl;
+    system("pause");
+}
+
+bool UserManager::ifLoginExists(const std::string& login) const
+{
+    for (const User& user : users)
+    {
+        if (user.login == login)
+            return true;
+    }
+    return false;
+}
+

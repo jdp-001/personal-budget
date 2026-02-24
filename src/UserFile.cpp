@@ -49,11 +49,33 @@ std::vector<User> UserFile::loadUsersFromFile()
 
         xml.OutOfElem();
     }
-
-    /// TEST ///
-    std::cout << "Users loaded: " << users.size() << std::endl;
-    system("pause");
-    /// END OF TEST ///
-
     return users;
+}
+
+void UserFile::appendUserToFile(const User& user)
+{
+    CMarkup xml;
+    bool fileExists = xml.Load(fileName);
+
+    if (!fileExists)
+    {
+        xml.SetDoc("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<Users></Users>");
+    }
+
+    xml.FindElem("Users");
+    xml.IntoElem();
+
+    xml.AddElem("User");
+    xml.IntoElem();
+
+    xml.AddElem("UserId", user.id);
+    xml.AddElem("FirstName", user.firstName);
+    xml.AddElem("LastName", user.lastName);
+    xml.AddElem("Login", user.login);
+    xml.AddElem("Password", user.password);
+
+    xml.OutOfElem(); // out of User
+    xml.OutOfElem(); // out of Users
+
+    xml.Save(fileName);
 }

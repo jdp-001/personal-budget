@@ -11,7 +11,7 @@ bool BudgetMainApp::isUserLoggedIn()
 
 void BudgetMainApp::registerUser()
 {
-    cout << "TODO" << endl;
+    userManager.registerUser();
 }
 
 void BudgetMainApp::loginUser()
