@@ -1,10 +1,15 @@
 Projekt: PersonalBudget (C++)
 Branch: feature__user-login-from-xml
-Ostatni commit: ed560c2 – Cleanup docs: remove deprecated guidelines, add workflow and AI template
+Ostatni commit: 61cc5ab – Add user registration with XML persistence
 
 Co działa:
 
 Odczyt users.xml do vector<User> przy starcie aplikacji
+
+Rejestracja użytkownika:
+- walidacja loginu (pusty + unikalność)
+- zapis do users.xml (append)
+- aktualizacja vectora w pamięci
 
 Logowanie z weryfikacją hasła (3 próby)
 
@@ -14,14 +19,14 @@ Utils::readLine() jako standard wejścia
 
 Czego nie ma / co jest niedomknięte:
 
-Rejestracja użytkownika z zapisem do users.xml
+Zmiana hasła z aktualizacją users.xml (update)
 
-Zmiana hasła z aktualizacją pliku
+Integracja UserManager z BudgetManager po zalogowaniu (przekazanie userId / tworzenie managera)
 
-Integracja UserManager z BudgetManager po zalogowaniu
+Budżet: dodawanie przychodów/wydatków + pliki incomes.xml/expenses.xml + bilanse
 
 Aktualny cel sesji (1 zamknięty poziom funkcjonalny):
-Domknąć rejestrację użytkownika (walidacja loginu + zapis do users.xml + aktualizacja vectora w pamięci).
+Domknąć zmianę hasła (walidacja + zapis aktualizacji do users.xml + test po restarcie).
 
 Tryb pracy:
 

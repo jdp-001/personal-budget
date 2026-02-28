@@ -72,8 +72,26 @@ void UserManager::changeUserPassword()
         return;
     }
 
-    std::cout << "Password change function called." << std::endl;
-    system("pause"); // Temporary for testing purposes
+    std::cout << "Enter new password: ";
+    std::string newPassword = Utils::readLine();
+
+    if (newPassword.empty())
+    {
+        std::cout << "Password cannot be empty." << std::endl;
+        return;
+    }
+
+    for (User& user : users)
+    {
+        if (user.id == loggedUserId)
+        {
+            user.password = newPassword;
+            break;
+        }
+    }
+
+    userFile.saveAllUsersToFile(users);
+    std::cout << "Password changed." << std::endl;
 }
 
 UserManager::UserManager(const std::string& fileName)
@@ -120,7 +138,7 @@ void UserManager::registerUser()
     int newUserId = 1;
 
     if (!users.empty())
-    newUserId = users.back().id + 1;
+        newUserId = users.back().id + 1;
 
     User newUser;
 

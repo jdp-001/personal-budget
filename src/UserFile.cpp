@@ -79,3 +79,29 @@ void UserFile::appendUserToFile(const User& user)
 
     xml.Save(fileName);
 }
+
+void UserFile::saveAllUsersToFile(const std::vector<User>& users)
+{
+    CMarkup xml;
+
+    xml.AddElem("Users");
+    xml.IntoElem();
+
+    for (const User& user : users)
+    {
+        xml.AddElem("User");
+        xml.IntoElem();
+
+        xml.AddElem("UserId", user.id);
+        xml.AddElem("FirstName", user.firstName);
+        xml.AddElem("LastName", user.lastName);
+        xml.AddElem("Login", user.login);
+        xml.AddElem("Password", user.password);
+
+        xml.OutOfElem(); // out of User
+    }
+
+    xml.OutOfElem(); // out of Users
+
+    xml.Save(fileName);
+}
