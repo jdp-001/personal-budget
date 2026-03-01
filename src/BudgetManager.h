@@ -1,5 +1,5 @@
 #pragma once
-
+#include <iostream>
 #include "DateMethods.h"
 #include "Operation.h"
 #include "OperationFile.h"
@@ -21,14 +21,8 @@ public:
     BudgetManager(const std::string& incomeFileName, const std::string& expenseFileName, int loggedUserId)
     : LOGGED_USER_ID(loggedUserId), incomeFile(incomeFileName), expenseFile(expenseFileName)
         {
-            // Load buffer from incomeFile
-            // Select logged user operations and forward to incomes
-            // incomes is ready
-            // Clear buffer
-            // Load buffer from expenseFile
-            // Select logged user operations and forward to expenses
-            // expenses is ready
-
+            incomes  = incomeFile.loadOperationsFromFile(LOGGED_USER_ID);
+            expenses = expenseFile.loadOperationsFromFile(LOGGED_USER_ID);
         }
 
     void showCurrentMonthBalance();
