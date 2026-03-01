@@ -20,6 +20,11 @@ void BudgetMainApp::loginUser()
 
     if (userManager.isUserLoggedIn())
     {
+        if (budgetManager != nullptr)
+        {
+            delete budgetManager;
+            budgetManager = nullptr;
+        }
         budgetManager = new BudgetManager("incomes.xml", "expenses.xml", userManager.getLoggedUserId());
     }
 }
