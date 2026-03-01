@@ -128,6 +128,7 @@ They do not handle direct user input parsing or low-level persistence details.
 - incomes.xml: incomeId, userId, date, item, amount
 - expenses.xml: expenseId, userId, date, item, amount
 - XML library: CMarkup
+- name -> firstName, surname -> lastName.
 
 ---
 
@@ -231,3 +232,13 @@ Recommended branch scope:
 - Date should be stored as int YYYYMMDD to simplify sorting and comparing.
 - User enters date as yyyy-mm-dd; validate; then convert to YYYYMMDD (with leading zeros) and store as int.
 - After publishing on GitHub, add README describing the application.
+
+## 11. User authentication flow
+
+- users.xml is loaded once at application start (UserManager constructor)
+- UserManager stores users in memory (std::vector<User>)
+- Login is performed against in-memory data
+- Password verification allows 3 attempts
+- Utils::readLine() is the standard input method (no direct std::cin >> usage)
+- UserFile is responsible only for XML I/O (no business logic)
+- On successful registration, the new user is appended to the in-memory vector and persisted to users.xml.
