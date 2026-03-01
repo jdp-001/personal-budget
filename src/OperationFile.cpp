@@ -65,7 +65,7 @@ int OperationFile::getLastOperationId() const
 
 std::vector<Operation> OperationFile::loadOperationsFromFile(int loggedUserId)
 {
-    std::vector<Operation> operations = {};
+    std::vector<Operation> operations;
 
     CMarkup xml;
 
@@ -78,6 +78,26 @@ std::vector<Operation> OperationFile::loadOperationsFromFile(int loggedUserId)
     {
         Operation op;
         xml.IntoElem();
+
+        xml.FindElem("Id");
+        op.id = std::stoi(xml.GetData());
+
+        xml.FindElem("UserId");
+        op.userId = std::stoi(xml.GetData());
+
+        xml.FindElem("Date");
+        op.date = std::stoi(xml.GetData());
+
+        xml.FindElem("Item");
+        op.item = xml.GetData();
+
+        xml.FindElem("Amount");
+        op.amount = std::stod(xml.GetData());
+
+        if (op.userId == loggedUserId)
+            operations.push_back(op);
+
+        xml.OutOfElem();
 
     }
 
