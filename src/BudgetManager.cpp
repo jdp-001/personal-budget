@@ -3,30 +3,48 @@
 #include <iostream>
 //#include <limits>
 #include <sstream>
+#include <algorithm>
 
 void BudgetManager::showCurrentMonthBalance()
 {
-    // getCurrentDate() and getCurrentMonthFirstDayDate() from DateMethod
-    int currentDate = dateMethods.getCurrentDate();
-    int currentMonthFirstDayDate = dateMethods.getCurrentMonthFirstDayDate();
+    int endDate = dateMethods.getCurrentDate();
+    int startDate = dateMethods.getCurrentMonthFirstDayDate();
 
-    std::cout << currentDate << std::endl;
-    std::cout << currentMonthFirstDayDate << std::endl;
+    std::cout << "\n=== CURRENT MONTH BALANCE ===\n";
 
-    // showBalance(int startDate, int endDate)
-    // - Load incomes vector to incomesTemporary vector selecting the range of the above dates
-    // - Sort incomesTemporary vector
-    // - Display incomesTemporary vector
-    // - incomesBalance = calculateBalance()
-    // - Display incomesBalance
-    //
-    // - Load expenses vector to expensesTemporary vector selecting only the range of the above dates
-    // - Sort expensesTemporary vector
-    // - Display expensesTemporary vector
-    // - expensesBalance = calculateBalance()
-    // - Display expensesBalance
-    //
-    // - Display incomesBalance + expensesBalance
+    std::sort(incomes.begin(), incomes.end(),
+    [](const Operation& a, const Operation& b) {
+        return a.date < b.date;
+    });
+
+    double incomesSum = 0.0;
+    std::cout << "\nINCOMES:\n";
+    for (const auto& op : incomes)
+        if (op.date >= startDate && op.date <= endDate)
+        {
+            incomesSum += op.amount;
+            std::cout << op.date << "  " << op.item << "  " << op.amount << "\n";
+        }
+
+    std::cout << "Incomes sum: " << incomesSum << "\n";
+
+    std::sort(expenses.begin(), expenses.end(),
+    [](const Operation& a, const Operation& b) {
+        return a.date < b.date;
+    });
+
+    double expensesSum = 0.0;
+    std::cout << "\nEXPENSES:\n";
+    for (const auto& op : expenses)
+        if (op.date >= startDate && op.date <= endDate)
+        {
+            expensesSum += op.amount;
+            std::cout << op.date << "  " << op.item << "  " << op.amount << "\n";
+        }
+
+    std::cout << "Expenses sum: " << expensesSum << "\n";
+
+    std::cout << "\nBALANCE: " << (incomesSum - expensesSum) << "\n";
 }
 
 void BudgetManager::addIncomeTest()
