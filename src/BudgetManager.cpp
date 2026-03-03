@@ -3,30 +3,63 @@
 #include <iostream>
 //#include <limits>
 #include <sstream>
+#include <algorithm>
+
+double BudgetManager::calculateBalance(int startDate, int endDate, const Type &type)
+{
+    double sum = 0.0;
+
+    const std::vector<Operation>& operations =
+        (type == INCOME) ? incomes : expenses;
+
+    for (const auto& op : operations)
+    {
+        if (op.date >= startDate && op.date <= endDate)
+            sum += op.amount;
+    }
+
+    return sum;
+}
+
+void BudgetManager::showBalance(int startDate, int endDate) {
+    std::sort(incomes.begin(), incomes.end(),
+    [](const Operation& a, const Operation& b) {
+        return a.date < b.date;
+    });
+
+    std::cout << "\nINCOMES:\n";
+    for (const auto& op : incomes) {
+        if (op.date >= startDate && op.date <= endDate)
+            std::cout << op.date << "  " << op.item << "  " << op.amount << "\n";
+    }
+
+    double incomesSum = calculateBalance(startDate, endDate, INCOME);
+    std::cout << "Incomes sum: " << incomesSum << "\n";
+
+    std::sort(expenses.begin(), expenses.end(),
+    [](const Operation& a, const Operation& b) {
+        return a.date < b.date;
+    });
+
+    std::cout << "\nEXPENSES:\n";
+    for (const auto& op : expenses) {
+        if (op.date >= startDate && op.date <= endDate)
+            std::cout << op.date << "  " << op.item << "  " << op.amount << "\n";
+    }
+
+    double expensesSum = calculateBalance(startDate, endDate, EXPENSE);
+    std::cout << "Expenses sum: " << expensesSum << "\n";
+
+    std::cout << "\nBALANCE: " << (incomesSum - expensesSum) << "\n";
+}
 
 void BudgetManager::showCurrentMonthBalance()
 {
-    // getCurrentDate() and getCurrentMonthFirstDayDate() from DateMethod
-    int currentDate = dateMethods.getCurrentDate();
-    int currentMonthFirstDayDate = dateMethods.getCurrentMonthFirstDayDate();
+    int endDate = dateMethods.getCurrentDate();
+    int startDate = dateMethods.getCurrentMonthFirstDayDate();
 
-    std::cout << currentDate << std::endl;
-    std::cout << currentMonthFirstDayDate << std::endl;
-
-    // showBalance(int startDate, int endDate)
-    // - Load incomes vector to incomesTemporary vector selecting the range of the above dates
-    // - Sort incomesTemporary vector
-    // - Display incomesTemporary vector
-    // - incomesBalance = calculateBalance()
-    // - Display incomesBalance
-    //
-    // - Load expenses vector to expensesTemporary vector selecting only the range of the above dates
-    // - Sort expensesTemporary vector
-    // - Display expensesTemporary vector
-    // - expensesBalance = calculateBalance()
-    // - Display expensesBalance
-    //
-    // - Display incomesBalance + expensesBalance
+    std::cout << "\n=== CURRENT MONTH BALANCE ===\n";
+    showBalance(startDate, endDate);
 }
 
 void BudgetManager::addIncomeTest()

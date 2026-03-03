@@ -53,7 +53,9 @@ void BudgetMainApp::addExpense()
 
 void BudgetMainApp::showCurrentMonthBalance()
 {
-    cout << "TODO" << endl;
+    //cout << "TODO" << endl;
+    budgetManager->showCurrentMonthBalance();
+    system("pause");
 }
 
 void BudgetMainApp::showPreviousMonthBalance()
