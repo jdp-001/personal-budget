@@ -5,27 +5,35 @@
 #include <sstream>
 #include <algorithm>
 
-void BudgetManager::showCurrentMonthBalance()
+double BudgetManager::calculateBalance(int startDate, int endDate, const Type &type)
 {
-    int endDate = dateMethods.getCurrentDate();
-    int startDate = dateMethods.getCurrentMonthFirstDayDate();
+    double sum = 0.0;
 
-    std::cout << "\n=== CURRENT MONTH BALANCE ===\n";
+    const std::vector<Operation>& operations =
+        (type == INCOME) ? incomes : expenses;
 
+    for (const auto& op : operations)
+    {
+        if (op.date >= startDate && op.date <= endDate)
+            sum += op.amount;
+    }
+
+    return sum;
+}
+
+void BudgetManager::showBalance(int startDate, int endDate) {
     std::sort(incomes.begin(), incomes.end(),
     [](const Operation& a, const Operation& b) {
         return a.date < b.date;
     });
 
-    double incomesSum = 0.0;
     std::cout << "\nINCOMES:\n";
-    for (const auto& op : incomes)
+    for (const auto& op : incomes) {
         if (op.date >= startDate && op.date <= endDate)
-        {
-            incomesSum += op.amount;
             std::cout << op.date << "  " << op.item << "  " << op.amount << "\n";
-        }
+    }
 
+    double incomesSum = calculateBalance(startDate, endDate, INCOME);
     std::cout << "Incomes sum: " << incomesSum << "\n";
 
     std::sort(expenses.begin(), expenses.end(),
@@ -33,18 +41,25 @@ void BudgetManager::showCurrentMonthBalance()
         return a.date < b.date;
     });
 
-    double expensesSum = 0.0;
     std::cout << "\nEXPENSES:\n";
-    for (const auto& op : expenses)
+    for (const auto& op : expenses) {
         if (op.date >= startDate && op.date <= endDate)
-        {
-            expensesSum += op.amount;
             std::cout << op.date << "  " << op.item << "  " << op.amount << "\n";
-        }
+    }
 
+    double expensesSum = calculateBalance(startDate, endDate, EXPENSE);
     std::cout << "Expenses sum: " << expensesSum << "\n";
 
     std::cout << "\nBALANCE: " << (incomesSum - expensesSum) << "\n";
+}
+
+void BudgetManager::showCurrentMonthBalance()
+{
+    int endDate = dateMethods.getCurrentDate();
+    int startDate = dateMethods.getCurrentMonthFirstDayDate();
+
+    std::cout << "\n=== CURRENT MONTH BALANCE ===\n";
+    showBalance(startDate, endDate);
 }
 
 void BudgetManager::addIncomeTest()

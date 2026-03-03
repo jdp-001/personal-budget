@@ -3,8 +3,10 @@
 #include "DateMethods.h"
 #include "Operation.h"
 #include "OperationFile.h"
+#include "Type.h"
 
 #include <vector>
+#include <string>
 
 class BudgetManager
 {
@@ -31,5 +33,9 @@ public:
 
     void addIncomeTest();
     void addIncome();
+
+private:
+    void showBalance(int startDate, int endDate);
+    double calculateBalance(int startDate, int endDate, const Type &type);
 
 };
