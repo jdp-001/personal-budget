@@ -60,7 +60,9 @@ void BudgetMainApp::showCurrentMonthBalance()
 
 void BudgetMainApp::showPreviousMonthBalance()
 {
-    cout << "TODO" << endl;
+    //cout << "TODO" << endl;
+    budgetManager->showPreviousMonthBalance();
+    system("pause");
 }
 
 void BudgetMainApp::showCustomPeriodBalance()
