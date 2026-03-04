@@ -62,6 +62,15 @@ void BudgetManager::showCurrentMonthBalance()
     showBalance(startDate, endDate);
 }
 
+void BudgetManager::showPreviousMonthBalance()
+{
+    int endDate   = dateMethods.getPreviousMonthLastDayDate();
+    int startDate = dateMethods.getPreviousMonthFirstDayDate();
+
+    std::cout << "\n=== PREVIOUS MONTH BALANCE ===\n";
+    showBalance(startDate, endDate);
+}
+
 void BudgetManager::addIncomeTest()
 {
     Operation op;
