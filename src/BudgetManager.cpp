@@ -71,6 +71,51 @@ void BudgetManager::showPreviousMonthBalance()
     showBalance(startDate, endDate);
 }
 
+void BudgetManager::showCustomPeriodBalance()
+{
+    std::string startDateStr;
+    std::string endDateStr;
+    int startDate;
+    int endDate;
+
+    while (true)
+    {
+        std::cout << "Enter start date (yyyy-mm-dd): ";
+        startDateStr = Utils::readLine();
+
+        if (dateMethods.validateDate(startDateStr))
+        {
+            startDate = dateMethods.convertStringDateToInt(startDateStr);
+            break;
+        }
+
+        std::cout << "Invalid date. Try again.\n";
+    }
+
+    while (true)
+    {
+        std::cout << "Enter end date (yyyy-mm-dd): ";
+        endDateStr = Utils::readLine();
+
+        if (dateMethods.validateDate(endDateStr))
+        {
+            endDate = dateMethods.convertStringDateToInt(endDateStr);
+
+            if (startDate <= endDate)
+                break;
+
+            std::cout << "End date must be after start date.\n";
+        }
+        else
+        {
+            std::cout << "Invalid date. Try again.\n";
+        }
+    }
+
+    std::cout << "\n=== CUSTOM PERIOD BALANCE ===\n";
+    showBalance(startDate, endDate);
+}
+
 void BudgetManager::addIncomeTest()
 {
     Operation op;

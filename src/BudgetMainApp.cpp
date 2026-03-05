@@ -67,7 +67,9 @@ void BudgetMainApp::showPreviousMonthBalance()
 
 void BudgetMainApp::showCustomPeriodBalance()
 {
-    cout << "TODO" << endl;
+    //cout << "TODO" << endl;
+    budgetManager->showCustomPeriodBalance();
+    system("pause");
 }
 
 void BudgetMainApp::changeUserPassword()
