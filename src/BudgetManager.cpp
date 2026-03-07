@@ -5,6 +5,15 @@
 #include <sstream>
 #include <algorithm>
 
+void BudgetManager::sortOperations(std::vector<Operation>& operations)
+{
+    std::sort(operations.begin(), operations.end(),
+    [](const Operation& a, const Operation& b)
+    {
+        return a.date < b.date;
+    });
+}
+
 double BudgetManager::calculateBalance(int startDate, int endDate, const Type &type)
 {
     double sum = 0.0;

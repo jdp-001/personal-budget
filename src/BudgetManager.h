@@ -37,5 +37,6 @@ public:
 private:
     void showBalance(int startDate, int endDate);
     double calculateBalance(int startDate, int endDate, const Type &type);
+    void sortOperations(std::vector<Operation>& operations);
 
 };
