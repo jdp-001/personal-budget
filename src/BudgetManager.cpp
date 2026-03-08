@@ -141,6 +141,16 @@ void BudgetManager::addIncome()
     sortOperations(incomes);
 }
 
+void BudgetManager::addExpense()
+{
+    Operation expense = addOperationDetails(Type::EXPENSE);
+
+    expenseFile.addOperationToFile(expense);
+    expenses.push_back(expense);
+
+    sortOperations(expenses);
+}
+
 Operation BudgetManager::addOperationDetails(const Type &type)
 {
     Operation op;
