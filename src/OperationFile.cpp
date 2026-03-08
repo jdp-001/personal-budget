@@ -1,6 +1,12 @@
 #include "OperationFile.h" // class declaration
 #include "Markup.h"
 
+OperationFile::OperationFile(const std::string& fileName)
+    : File(fileName)
+{
+    lastId = getLastOperationId();
+}
+
 bool OperationFile::addOperationToFile(const Operation& operation)
 {
     // 1. Load(FILE_NAME)
@@ -8,6 +14,7 @@ bool OperationFile::addOperationToFile(const Operation& operation)
 
     Operation op = operation;
     op.id = getLastOperationId() + 1;
+    //op.id = ++lastId;
     bool fileExists = xml.Load(FILE_NAME);
 
     // 2. If doesn't exist → SetDoc("<Operations></Operations>")
