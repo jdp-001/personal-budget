@@ -25,6 +25,9 @@ public:
         {
             incomes  = incomeFile.loadOperationsFromFile(LOGGED_USER_ID);
             expenses = expenseFile.loadOperationsFromFile(LOGGED_USER_ID);
+
+            sortOperations(incomes);
+            sortOperations(expenses);
         }
 
     void showCurrentMonthBalance();
@@ -37,5 +40,7 @@ public:
 private:
     void showBalance(int startDate, int endDate);
     double calculateBalance(int startDate, int endDate, const Type &type);
+    void sortOperations(std::vector<Operation>& operations);
+    Operation addOperationDetails(const Type &type);
 
 };
