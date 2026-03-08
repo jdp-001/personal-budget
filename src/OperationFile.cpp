@@ -14,7 +14,6 @@ bool OperationFile::addOperationToFile(const Operation& operation)
 
     Operation op = operation;
     op.id = getLastOperationId() + 1;
-    //op.id = ++lastId;
     bool fileExists = xml.Load(FILE_NAME);
 
     // 2. If doesn't exist → SetDoc("<Operations></Operations>")
