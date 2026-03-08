@@ -3,17 +3,14 @@
 #include <vector>
 
 #include "Operation.h"
+#include "File.h"
 
-class OperationFile
+class OperationFile : public File
 {
-private:
-    const std::string FILE_NAME;
-
-
 public:
-    OperationFile(const std::string& fileName) : FILE_NAME(fileName) {}
-
+    OperationFile(const std::string& fileName);
     std::vector<Operation> loadOperationsFromFile(int loggedUserId);
     bool addOperationToFile(const Operation& operation);
     int getLastOperationId() const;
+    int getNextOperationId() const;
 };
