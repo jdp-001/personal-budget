@@ -36,6 +36,7 @@ public:
 
     void addIncomeTest();
     void addIncome();
+    void addExpense();
 
 private:
     void showBalance(int startDate, int endDate);

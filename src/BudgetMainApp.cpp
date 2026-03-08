@@ -48,7 +48,11 @@ void BudgetMainApp::addIncome()
 
 void BudgetMainApp::addExpense()
 {
-    cout << "TODO" << endl;
+    if (budgetManager != nullptr)
+    {
+        budgetManager->addExpense();
+        system("pause");
+    }
 }
 
 void BudgetMainApp::showCurrentMonthBalance()
