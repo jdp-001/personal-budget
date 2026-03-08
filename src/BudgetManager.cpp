@@ -31,10 +31,6 @@ double BudgetManager::calculateBalance(int startDate, int endDate, const Type &t
 }
 
 void BudgetManager::showBalance(int startDate, int endDate) {
-    std::sort(incomes.begin(), incomes.end(),
-    [](const Operation& a, const Operation& b) {
-        return a.date < b.date;
-    });
 
     std::cout << "\nINCOMES:\n";
     for (const auto& op : incomes) {
@@ -44,11 +40,6 @@ void BudgetManager::showBalance(int startDate, int endDate) {
 
     double incomesSum = calculateBalance(startDate, endDate, INCOME);
     std::cout << "Incomes sum: " << incomesSum << "\n";
-
-    std::sort(expenses.begin(), expenses.end(),
-    [](const Operation& a, const Operation& b) {
-        return a.date < b.date;
-    });
 
     std::cout << "\nEXPENSES:\n";
     for (const auto& op : expenses) {
@@ -142,8 +133,56 @@ void BudgetManager::addIncomeTest()
 
 void BudgetManager::addIncome()
 {
+    Operation income = addOperationDetails(Type::INCOME);
+
+    incomeFile.addOperationToFile(income);
+    incomes.push_back(income);
+
+    sortOperations(incomes);
+}
+
+Operation BudgetManager::addOperationDetails(const Type &type)
+{
     Operation op;
 
+    // int id;
+    if (type == INCOME) op.id = incomeFile.getLastOperationId() + 1;
+    if (type == EXPENSE) op.id = expenseFile.getLastOperationId() + 1;
+
+    // int userId;
+    op.userId = LOGGED_USER_ID;
+
+    // int date
+    int date;
+    char ch;
+    std::cout << "Is it today's operation? [y/n]" << std::endl;
+    ch = Utils::getCharacter();
+    if (ch == 'y' || ch == 'Y')
+    {
+        date = dateMethods.getCurrentDate();
+    }
+    else
+    {
+        // TO DO
+        while (true)
+        {
+            std::cout << "Enter date (yyyy-mm-dd):" << std::endl;
+            std::string dateString = Utils::readLine();
+            if (dateMethods.validateDate(dateString))
+            {
+                date = dateMethods.convertStringDateToInt(dateString);
+                break;
+            }
+            else
+            {
+                std::cout << "Incorrect date format or range." << std::endl;
+            }
+        }
+    }
+
+    op.date = date;
+
+    // std::string item;
     std::string item;
 
     while (true)
@@ -158,6 +197,9 @@ void BudgetManager::addIncome()
         std::cout << "Item can not be empty. Enter again." << std::endl;
     }
 
+    op.item = item;
+
+    // double amount;
     double amount = 0.0;
 
     while (true)
@@ -175,15 +217,7 @@ void BudgetManager::addIncome()
 
         std::cout << "Invalid amount. Enter again." << std::endl;
     }
+
     op.amount = amount;
-
-    op.id = incomes.size() + 1;
-    op.userId = LOGGED_USER_ID;
-    op.date = 20250101;
-    op.item = item;
-
-    incomes.push_back(op);
-    std::cout << "DEBUG: " << item << amount << std::endl;
-    std::cout << "Income added. Count: " << incomes.size() << std::endl;
-
+    return op;
 }
