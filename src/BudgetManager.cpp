@@ -116,21 +116,6 @@ void BudgetManager::showCustomPeriodBalance()
     showBalance(startDate, endDate);
 }
 
-void BudgetManager::addIncomeTest()
-{
-    Operation op;
-
-    op.id = 1;
-    op.userId = 1;
-    op.date = 20250101;
-    op.item = "Test income";
-    op.amount = 100.0;
-
-    incomes.push_back(op);
-
-    std::cout << "Income added. Current count: " << incomes.size() << std::endl;
-}
-
 void BudgetManager::addIncome()
 {
     Operation income = addOperationDetails(Type::INCOME);

@@ -40,7 +40,6 @@ void BudgetMainApp::addIncome()
 {
     if (budgetManager != nullptr)
     {
-        //budgetManager->addIncomeTest();
         budgetManager->addIncome();
         system("pause");
     }
