@@ -121,7 +121,6 @@ void BudgetManager::addIncome()
     Operation income = addOperationDetails(Type::INCOME);
 
     incomeFile.addOperationToFile(income);
-    std::cout << "ID in BudgetManager: " << income.id << std::endl;
     incomes.push_back(income);
 
     sortOperations(incomes);
