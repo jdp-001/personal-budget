@@ -4,7 +4,7 @@
 #include <iostream>
 
 UserFile::UserFile(const std::string& fileName):
-    fileName(fileName)
+    File(fileName)
 {
 
 }
@@ -12,7 +12,7 @@ UserFile::UserFile(const std::string& fileName):
 std::vector<User> UserFile::loadUsersFromFile()
 {
     CMarkup xml;
-    bool fileExists = xml.Load(fileName);
+    bool fileExists = xml.Load(FILE_NAME);
     std::vector<User> users;
 
     if (!fileExists)
@@ -55,7 +55,7 @@ std::vector<User> UserFile::loadUsersFromFile()
 void UserFile::appendUserToFile(const User& user)
 {
     CMarkup xml;
-    bool fileExists = xml.Load(fileName);
+    bool fileExists = xml.Load(FILE_NAME);
 
     if (!fileExists)
     {
@@ -77,7 +77,7 @@ void UserFile::appendUserToFile(const User& user)
     xml.OutOfElem(); // out of User
     xml.OutOfElem(); // out of Users
 
-    xml.Save(fileName);
+    xml.Save(FILE_NAME);
 }
 
 void UserFile::saveAllUsersToFile(const std::vector<User>& users)
@@ -103,5 +103,5 @@ void UserFile::saveAllUsersToFile(const std::vector<User>& users)
 
     xml.OutOfElem(); // out of Users
 
-    xml.Save(fileName);
+    xml.Save(FILE_NAME);
 }
