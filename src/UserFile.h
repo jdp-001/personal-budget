@@ -2,11 +2,12 @@
 #include <vector>
 #include <string>
 #include "User.h"
+#include "File.h"
 
-class UserFile
+class UserFile : public File
 {
 private:
-    std::string fileName;
+
 
 public:
     UserFile(const std::string& fileName);
