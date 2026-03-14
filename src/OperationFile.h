@@ -12,5 +12,4 @@ public:
     std::vector<Operation> loadOperationsFromFile(int loggedUserId);
     bool addOperationToFile(const Operation& operation);
     int getLastOperationId() const;
-    int getNextOperationId() const;
 };
