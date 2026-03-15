@@ -10,8 +10,11 @@ protected:
     int lastId;
     CMarkup xmlDoc;
 
+    void checkRootNode();
+
 public:
     File(const std::string& fileName)
         : FILE_NAME(fileName), lastId(0) {}
+
 };
 
