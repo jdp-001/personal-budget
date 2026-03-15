@@ -1,7 +1,6 @@
 #include "BudgetManager.h"
 #include "Utils.h"
 #include <iostream>
-//#include <limits>
 #include <sstream>
 #include <algorithm>
 
@@ -140,14 +139,11 @@ Operation BudgetManager::addOperationDetails(const Type &type)
 {
     Operation op;
 
-    // int id;
     if (type == INCOME) op.id = incomeFile.getLastOperationId() + 1;
     if (type == EXPENSE) op.id = expenseFile.getLastOperationId() + 1;
 
-    // int userId;
     op.userId = LOGGED_USER_ID;
 
-    // int date
     int date;
     char ch;
     std::cout << "Is it today's operation? [y/n]" << std::endl;
@@ -158,7 +154,6 @@ Operation BudgetManager::addOperationDetails(const Type &type)
     }
     else
     {
-        // TO DO
         while (true)
         {
             std::cout << "Enter date (yyyy-mm-dd):" << std::endl;
@@ -177,7 +172,6 @@ Operation BudgetManager::addOperationDetails(const Type &type)
 
     op.date = date;
 
-    // std::string item;
     std::string item;
 
     while (true)
@@ -194,7 +188,6 @@ Operation BudgetManager::addOperationDetails(const Type &type)
 
     op.item = item;
 
-    // double amount;
     double amount = 0.0;
 
     while (true)
