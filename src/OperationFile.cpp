@@ -10,58 +10,55 @@ OperationFile::OperationFile(const std::string& fileName)
 bool OperationFile::addOperationToFile(const Operation& operation)
 {
     // 1. Load(FILE_NAME)
-    CMarkup xml;
-
     Operation op = operation;
     op.id = ++lastId;
-    bool fileExists = xml.Load(FILE_NAME);
+    bool fileExists = xmlDoc.Load(FILE_NAME);
 
     // 2. If doesn't exist → SetDoc("<Operations></Operations>")
     if (!fileExists)
     {
-        xml.SetDoc("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<Operations></Operations>");
+        xmlDoc.SetDoc("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<Operations></Operations>");
     }
 
     // 3. Go into <Operations>
-    xml.FindElem("Operations");
-    xml.IntoElem();
+    xmlDoc.FindElem("Operations");
+    xmlDoc.IntoElem();
 
     // 4. Add <Operation> + all fields
-    xml.AddElem("Operation");
-    xml.IntoElem();
+    xmlDoc.AddElem("Operation");
+    xmlDoc.IntoElem();
 
-    xml.AddElem("Id", op.id);
-    xml.AddElem("UserId", op.userId);
-    xml.AddElem("Date", op.date);
-    xml.AddElem("Item", op.item);
-    xml.AddElem("Amount", op.amount);
+    xmlDoc.AddElem("Id", op.id);
+    xmlDoc.AddElem("UserId", op.userId);
+    xmlDoc.AddElem("Date", op.date);
+    xmlDoc.AddElem("Item", op.item);
+    xmlDoc.AddElem("Amount", op.amount);
 
-    xml.OutOfElem();
+    xmlDoc.OutOfElem();
 
     // 5. Save(FILE_NAME) and return result
-    return xml.Save(FILE_NAME);
+    return xmlDoc.Save(FILE_NAME);
 }
 
-int OperationFile::getLastOperationId() const
+int OperationFile::getLastOperationId()
 {
     // Open file, if doesn't exist return 0;
-    CMarkup xml;
-    if (!xml.Load(FILE_NAME)) return 0;
+    if (!xmlDoc.Load(FILE_NAME)) return 0;
 
     // Find Operations and Go into it, if doesn't exist return 0;
-    if (!xml.FindElem("Operations")) return 0;
-    xml.IntoElem();
+    if (!xmlDoc.FindElem("Operations")) return 0;
+    xmlDoc.IntoElem();
 
     int lastId = 0;
 
     // In a loop find Operation in Operations
     // and find Id (and remember the last one)
-    while (xml.FindElem("Operation"))
+    while (xmlDoc.FindElem("Operation"))
     {
-        xml.IntoElem();
-        xml.FindElem("Id");
-        lastId = std::stoi(xml.GetData());
-        xml.OutOfElem();
+        xmlDoc.IntoElem();
+        xmlDoc.FindElem("Id");
+        lastId = std::stoi(xmlDoc.GetData());
+        xmlDoc.OutOfElem();
     }
 
     // Return Id (the last one)
@@ -73,37 +70,35 @@ std::vector<Operation> OperationFile::loadOperationsFromFile(int loggedUserId)
 {
     std::vector<Operation> operations;
 
-    CMarkup xml;
+    if (!xmlDoc.Load(FILE_NAME)) return operations;
 
-    if (!xml.Load(FILE_NAME)) return operations;
+    if (!xmlDoc.FindElem("Operations")) return operations;
+    xmlDoc.IntoElem();
 
-    if (!xml.FindElem("Operations")) return operations;
-    xml.IntoElem();
-
-    while (xml.FindElem("Operation"))
+    while (xmlDoc.FindElem("Operation"))
     {
         Operation op;
-        xml.IntoElem();
+        xmlDoc.IntoElem();
 
-        xml.FindElem("Id");
-        op.id = std::stoi(xml.GetData());
+        xmlDoc.FindElem("Id");
+        op.id = std::stoi(xmlDoc.GetData());
 
-        xml.FindElem("UserId");
-        op.userId = std::stoi(xml.GetData());
+        xmlDoc.FindElem("UserId");
+        op.userId = std::stoi(xmlDoc.GetData());
 
-        xml.FindElem("Date");
-        op.date = std::stoi(xml.GetData());
+        xmlDoc.FindElem("Date");
+        op.date = std::stoi(xmlDoc.GetData());
 
-        xml.FindElem("Item");
-        op.item = xml.GetData();
+        xmlDoc.FindElem("Item");
+        op.item = xmlDoc.GetData();
 
-        xml.FindElem("Amount");
-        op.amount = std::stod(xml.GetData());
+        xmlDoc.FindElem("Amount");
+        op.amount = std::stod(xmlDoc.GetData());
 
         if (op.userId == loggedUserId)
             operations.push_back(op);
 
-        xml.OutOfElem();
+        xmlDoc.OutOfElem();
 
     }
 
