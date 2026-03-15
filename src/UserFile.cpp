@@ -57,7 +57,7 @@ void UserFile::appendUserToFile(const User& user)
 
     if (!fileExists)
     {
-        xmlDoc.SetDoc("<?xmlDoc version=\"1.0\" encoding=\"UTF-8\"?>\n<Users></Users>");
+        xmlDoc.SetDoc("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<Users></Users>");
     }
 
     xmlDoc.FindElem("Users");
