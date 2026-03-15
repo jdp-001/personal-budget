@@ -56,21 +56,18 @@ void BudgetMainApp::addExpense()
 
 void BudgetMainApp::showCurrentMonthBalance()
 {
-    //cout << "TODO" << endl;
     budgetManager->showCurrentMonthBalance();
     system("pause");
 }
 
 void BudgetMainApp::showPreviousMonthBalance()
 {
-    //cout << "TODO" << endl;
     budgetManager->showPreviousMonthBalance();
     system("pause");
 }
 
 void BudgetMainApp::showCustomPeriodBalance()
 {
-    //cout << "TODO" << endl;
     budgetManager->showCustomPeriodBalance();
     system("pause");
 }

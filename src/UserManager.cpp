@@ -15,7 +15,6 @@ int UserManager::getLoggedUserId() const
 
 void UserManager::loginUser()
 {
-    //loggedUserId = 1; // Temporary for testing purposes
     std::cout << "Enter login: ";
     std::string login = Utils::readLine();
 

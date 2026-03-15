@@ -26,9 +26,6 @@ std::string Utils::readLine()
     std::string input = "";
     std::getline(std::cin, input);
     return input;
-    //std::string line;
-    //std::getline(std::cin >> std::ws, line);
-    //return line;
 }
 
 std::string Utils::trim(const std::string& text)
