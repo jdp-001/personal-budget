@@ -11,8 +11,7 @@ UserFile::UserFile(const std::string& fileName):
 
 std::vector<User> UserFile::loadUsersFromFile()
 {
-    CMarkup xml;
-    bool fileExists = xml.Load(FILE_NAME);
+    bool fileExists = xmlDoc.Load(FILE_NAME);
     std::vector<User> users;
 
     if (!fileExists)
@@ -20,88 +19,85 @@ std::vector<User> UserFile::loadUsersFromFile()
         return {};
     }
 
-    xml.FindElem("Users");
-    xml.IntoElem();
+    xmlDoc.FindElem("Users");
+    xmlDoc.IntoElem();
 
-    while (xml.FindElem("User"))
+    while (xmlDoc.FindElem("User"))
     {
-        xml.IntoElem();
+        xmlDoc.IntoElem();
 
-        // Read data of individual user from XML
+        // Read data of individual user from xmlDoc
         User user;
 
-        xml.FindElem("UserId");
-        user.id = std::stoi(xml.GetData());
+        xmlDoc.FindElem("UserId");
+        user.id = std::stoi(xmlDoc.GetData());
 
-        xml.FindElem("FirstName");
-        user.firstName = xml.GetData();
+        xmlDoc.FindElem("FirstName");
+        user.firstName = xmlDoc.GetData();
 
-        xml.FindElem("LastName");
-        user.lastName = xml.GetData();
+        xmlDoc.FindElem("LastName");
+        user.lastName = xmlDoc.GetData();
 
-        xml.FindElem("Login");
-        user.login = xml.GetData();
+        xmlDoc.FindElem("Login");
+        user.login = xmlDoc.GetData();
 
-        xml.FindElem("Password");
-        user.password = xml.GetData();
+        xmlDoc.FindElem("Password");
+        user.password = xmlDoc.GetData();
 
         users.push_back(user);
 
-        xml.OutOfElem();
+        xmlDoc.OutOfElem();
     }
     return users;
 }
 
 void UserFile::appendUserToFile(const User& user)
 {
-    CMarkup xml;
-    bool fileExists = xml.Load(FILE_NAME);
+    bool fileExists = xmlDoc.Load(FILE_NAME);
 
     if (!fileExists)
     {
-        xml.SetDoc("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<Users></Users>");
+        xmlDoc.SetDoc("<?xmlDoc version=\"1.0\" encoding=\"UTF-8\"?>\n<Users></Users>");
     }
 
-    xml.FindElem("Users");
-    xml.IntoElem();
+    xmlDoc.FindElem("Users");
+    xmlDoc.IntoElem();
 
-    xml.AddElem("User");
-    xml.IntoElem();
+    xmlDoc.AddElem("User");
+    xmlDoc.IntoElem();
 
-    xml.AddElem("UserId", user.id);
-    xml.AddElem("FirstName", user.firstName);
-    xml.AddElem("LastName", user.lastName);
-    xml.AddElem("Login", user.login);
-    xml.AddElem("Password", user.password);
+    xmlDoc.AddElem("UserId", user.id);
+    xmlDoc.AddElem("FirstName", user.firstName);
+    xmlDoc.AddElem("LastName", user.lastName);
+    xmlDoc.AddElem("Login", user.login);
+    xmlDoc.AddElem("Password", user.password);
 
-    xml.OutOfElem(); // out of User
-    xml.OutOfElem(); // out of Users
+    xmlDoc.OutOfElem(); // out of User
+    xmlDoc.OutOfElem(); // out of Users
 
-    xml.Save(FILE_NAME);
+    xmlDoc.Save(FILE_NAME);
 }
 
 void UserFile::saveAllUsersToFile(const std::vector<User>& users)
 {
-    CMarkup xml;
-
-    xml.AddElem("Users");
-    xml.IntoElem();
+    xmlDoc.AddElem("Users");
+    xmlDoc.IntoElem();
 
     for (const User& user : users)
     {
-        xml.AddElem("User");
-        xml.IntoElem();
+        xmlDoc.AddElem("User");
+        xmlDoc.IntoElem();
 
-        xml.AddElem("UserId", user.id);
-        xml.AddElem("FirstName", user.firstName);
-        xml.AddElem("LastName", user.lastName);
-        xml.AddElem("Login", user.login);
-        xml.AddElem("Password", user.password);
+        xmlDoc.AddElem("UserId", user.id);
+        xmlDoc.AddElem("FirstName", user.firstName);
+        xmlDoc.AddElem("LastName", user.lastName);
+        xmlDoc.AddElem("Login", user.login);
+        xmlDoc.AddElem("Password", user.password);
 
-        xml.OutOfElem(); // out of User
+        xmlDoc.OutOfElem(); // out of User
     }
 
-    xml.OutOfElem(); // out of Users
+    xmlDoc.OutOfElem(); // out of Users
 
-    xml.Save(FILE_NAME);
+    xmlDoc.Save(FILE_NAME);
 }

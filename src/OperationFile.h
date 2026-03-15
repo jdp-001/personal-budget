@@ -11,5 +11,5 @@ public:
     OperationFile(const std::string& fileName);
     std::vector<Operation> loadOperationsFromFile(int loggedUserId);
     bool addOperationToFile(const Operation& operation);
-    int getLastOperationId() const;
+    int getLastOperationId();
 };
