@@ -1,11 +1,19 @@
 # Project Architecture
 
 ## 1. Purpose
-A console-based personal budget application that allows registered users to record incomes and expenses and display balance summaries for the current month, previous month, or a custom period.
+
+PersonalBudget is a console-based C++ application for managing a personal budget.
+
+The program allows registered users to:
+- register and log in,
+- change password,
+- add incomes and expenses,
+- display balance for:
+  - current month,
+  - previous month,
+  - custom period.
 
 Data is persisted in XML files using the CMarkup library.
-
-The project follows mentor requirements and strict architectural separation between UI, business logic and persistence.
 
 ---
 
@@ -13,242 +21,203 @@ The project follows mentor requirements and strict architectural separation betw
 
 - Language: C++
 - Data storage: XML (CMarkup)
-- User date format (UI): yyyy-mm-dd
-- Internal date format: int YYYYMMDD
-- Allowed date range: 2000-01-01 to last day of current month
-- Amount input: decimal with dot; comma is converted to dot
-- Sorting: operations sorted ascending by date
-- Code / commits / branches: English
-- Discussions: Polish
+- UI date format: `yyyy-mm-dd`
+- Internal date format: `int YYYYMMDD`
+- Allowed date range: from `2000-01-01` to the last day of the current month
+- Amount input: decimal number; comma is converted to dot
+- Operations are displayed sorted ascending by date
+- Code / commits / branch names: English
+- Discussion / analysis: Polish
 
 ---
 
-## 3. Modules overview
+## 3. Layers and responsibilities
 
 ### Application entry
 - `main.cpp`
-  - Owns main loop
-  - Delegates control to `BudgetMainApp`
+  - owns the main loop,
+  - creates `BudgetMainApp`.
 
----
-
-### UI / Control layer
+### UI / control layer
 - `BudgetMainApp`
-  - Controls program flow after login
-  - Delegates business logic to managers
-  - Does not perform calculations
+  - controls application flow,
+  - displays menus,
+  - delegates work to managers,
+  - does not contain business calculations.
 
----
-
-### Input helpers
-- `Utils`
-  - readLine()
-  - getCharacter()
-  - Safe console input handling
-
----
-
-### User management
+### User logic
 - `UserManager`
-  - registration
-  - login (3 attempts)
-  - logout
-  - password change
-  - holds vector<User> in memory
+  - user registration,
+  - login,
+  - logout,
+  - password change,
+  - stores `vector<User>` in memory,
+  - creates user-related decisions and validations.
 
-- `UserFile`
-  - loads users.xml
-  - appends new user
-  - rewrites file when password changes
-
-- `User` (struct)
-  - id
-  - firstName
-  - lastName
-  - login
-  - password
-
----
-
-### Budget management
+### Budget logic
 - `BudgetManager`
-  - add income
-  - add expense
-  - load operations for logged user
-  - calculate balance for:
-    - current month
-    - previous month
-    - custom period
-  - sort operations by date
+  - adding incomes,
+  - adding expenses,
+  - loading operations for logged user,
+  - calculating and displaying balances,
+  - sorting operations by date,
+  - using date range logic.
 
----
+### Persistence layer
+- `UserFile`
+  - loads users from XML,
+  - appends new user to XML,
+  - saves full users list when needed.
 
-### Domain model
-- `Operation`
-  - id
-  - userId
-  - date (int YYYYMMDD)
-  - item
-  - amount (double)
-
-- `Type` (enum)
-  - INCOME
-  - EXPENSE
-
----
-
-### Persistence of operations
 - `OperationFile`
-  - addOperationToFile()
-  - loadOperationsFromFile()
-  - getLastOperationId() (private)
-  - uses CMarkup
-  - separate files:
-    - incomes.xml
-    - expenses.xml
+  - loads operations from XML,
+  - appends operations to XML,
+  - determines last operation id.
 
----
+- `File`
+  - base class for XML file handling,
+  - stores common file data:
+    - `FILE_NAME`
+    - `lastId`
+    - `xmlDoc`
+  - provides shared XML-related mechanism (`checkRootNode()`).
 
-### Date handling
+### Helper classes
+- `Utils`
+  - safe console input handling,
+  - `readLine()`,
+  - `getCharacter()`.
+
 - `DateMethods`
-  - validate date format
-  - leap year handling
-  - month length
-  - convert yyyy-mm-dd ↔ YYYYMMDD
-  - provide:
-    - current date
-    - first day of current month
-    - previous month boundaries
+  - date validation,
+  - leap year handling,
+  - month length handling,
+  - date conversion between string and integer formats,
+  - current and previous month boundary calculations.
 
 ---
 
-### Planned (UML-aligned but not yet implemented)
+## 4. Domain model
 
-- `CashMethods`
-  - amount validation
-  - comma-to-dot conversion
-  - numeric validation before conversion to double
+### `User`
+- `id`
+- `firstName`
+- `lastName`
+- `login`
+- `password`
 
-- `File` (base class)
-  - potential common abstraction for UserFile and OperationFile
-  - not yet introduced (current implementation uses concrete classes only)
+### `Operation`
+- `id`
+- `userId`
+- `date`
+- `item`
+- `amount`
 
----
-
-## 4. Helpers philosophy
-
-Helper classes:
-- are stateless
-- contain reusable logic
-- do not store application state
-- do not perform business decisions
-
----
-
-## 5. Separation of concerns
-
-UI layer:
-- displays menus
-- collects raw input
-- delegates to managers
-
-Managers:
-- perform business logic
-- operate on domain objects
-- do not directly parse console input
-
-Persistence layer:
-- performs XML I/O
-- contains no business decisions
-
-Domain model:
-- contains only data
-- no UI or XML logic
+### `Type`
+- `INCOME`
+- `EXPENSE`
 
 ---
 
-## 6. Persistence format
+## 5. Persistence format
 
-- users.xml:
-  - userId
-  - login
-  - password
-  - firstName
-  - lastName
+### `users.xml`
+Stores:
+- `UserId`
+- `FirstName`
+- `LastName`
+- `Login`
+- `Password`
 
-- incomes.xml:
-  - Id
-  - UserId
-  - Date
-  - Item
-  - Amount
-
-- expenses.xml:
-  - Id
-  - UserId
-  - Date
-  - Item
-  - Amount
+### `incomes.xml` / `expenses.xml`
+Stores:
+- `Id`
+- `UserId`
+- `Date`
+- `Item`
+- `Amount`
 
 ---
 
-## 7. Authentication flow
+## 6. Main flow
 
-- users.xml loaded once at startup
-- vector<User> stored in memory
-- login validated in memory
-- password change rewrites full users.xml
-- after successful login:
-  - BudgetManager created with loggedUserId
-- after logout:
-  - BudgetManager destroyed
+### Authentication flow
+- `users.xml` is loaded into memory,
+- login is validated against `vector<User>`,
+- after successful login, `BudgetManager` is created for the logged user,
+- after logout, `BudgetManager` is destroyed.
 
----
-
-## 8. Git rules
-
-- No direct commits to master
-- Master updated only via merge commits
-- One branch = one coherent functional area
-- 1 commit = 1 closed functional level
-- Keep history clean
+### Budget flow
+- user adds income or expense,
+- operation is validated and converted,
+- operation is appended to the proper XML file,
+- balances are calculated from loaded operations for selected date range.
 
 ---
 
-## 9. Development process rules
+## 7. Separation of concerns
 
-- Architecture updated before or together with code
-- No implementation without agreed structure
-- Small incremental steps
-- Avoid architectural drift
-- Avoid adding classes not defined in architecture
+### UI layer
+Responsible for:
+- menus,
+- communication with the user,
+- collecting raw input.
+
+### Managers
+Responsible for:
+- business decisions,
+- application logic,
+- using domain objects and helpers.
+
+### Persistence layer
+Responsible for:
+- XML reading and writing,
+- file structure handling,
+- no business decisions.
+
+### Domain objects
+Responsible only for:
+- storing data.
 
 ---
 
-## 10. Current state (after merge to master)
+## 8. Git workflow
+
+- No direct commits to `master`
+- `master` updated through merges from feature/chore/fix branches
+- One branch = one coherent change
+- One commit = one closed logical step
+- Keep history clean and readable
+
+---
+
+## 9. Current state
 
 Implemented:
-- User registration + login
-- Password change
-- OperationFile complete
-- DateMethods complete
-- BudgetManager skeleton
+- user registration,
+- login,
+- password change,
+- adding income,
+- adding expense,
+- current month balance,
+- previous month balance,
+- custom period balance,
+- XML persistence,
+- `File` base class introduced and used by file classes.
 
-Remaining:
-- BudgetManager:
-  - loading operations into vectors
-  - addIncome / addExpense
-  - balance calculations
+Not implemented as separate UML elements:
+- `CashMethods` class
+- `Utils::validateInput()`
+- `UserFile::changePasswordInFile()`
 
-Planned:
-- CashMethods
-- Optional File base class
+These areas are currently handled in other parts of the program.
 
 ---
 
-## 11. Mentor requirements (verbatim)
+## 10. Mentor requirements reflected in the implementation
 
-- Date stored as int YYYYMMDD
-- User enters yyyy-mm-dd, validated then converted
-- Sorting based on int YYYYMMDD
-- README required after publishing
+- Date stored internally as `int YYYYMMDD`
+- User enters date as `yyyy-mm-dd`
+- Input date is validated before conversion
+- Sorting is based on integer date representation
+- XML persistence implemented with CMarkup
